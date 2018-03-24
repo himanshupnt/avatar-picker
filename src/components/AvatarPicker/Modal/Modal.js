@@ -10,6 +10,12 @@ class Modal extends Component {
     hide: PropTypes.func.isRequired
   };
 
+  componentDidMount() {
+    window.addEventListener("keyup", this.props.hide, false);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("keyup", this.props.hide, false);
+  }
   render() {
     return (
       <React.Fragment>
