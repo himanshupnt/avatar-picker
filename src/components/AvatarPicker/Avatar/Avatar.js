@@ -2,7 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Avatar.css";
 
-export const getAvatarStyles = (props, styles) => {};
+export const getAvatarStyles = (props, styles) => {
+  const { isActive, highlight, showSpinner } = props;
+  if (isActive) {
+    return styles.ActiveImgWrapper;
+  }
+
+  if (!isActive && showSpinner) {
+    return styles.SpinningListImgWrapper;
+  }
+
+  if (!isActive) {
+    return `${styles.ListImgWrapper} ${
+      highlight ? styles.HighlightedListImgWrapper : null
+    }`;
+  }
+};
 
 const Avatar = props => {
   const { avatar, onClickAvatar } = props;
