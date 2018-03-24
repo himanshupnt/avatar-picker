@@ -37,6 +37,35 @@ class AvatarPicker extends Component {
     }
   };
 
+  onNetworkResponse = avatar => {
+    this.setState(prevState => {
+      return {
+        activeAvatar: avatar,
+        showModal: false,
+        isUpdatingAvatar: false,
+        updatingAvatarID: -1
+      };
+    });
+    document.removeEventListener("keyup", this.onCloseModal, false);
+  };
+
+  callNetwork = async payload => {
+    const response = await networkReq(payload);
+    return await this.onNetworkResponse(response);
+  };
+
+  onClickListAvatar = async e => {
+    e.preventDefault();
+    const targetAvatarID = +e.target.id;
+    if (e.keyCode === 13 || e.keyCode === 32 || e.type === "click") {
+      this.setState(prevState => ({
+        updatingAvatarID: targetAvatarID,
+        isUpdatingAvatar: true
+      }));
+      return await this.callNetwork({ avatarID: targetAvatarID });
+    }
+  };
+
   highlight = avatarID => {
     return avatarID === this.state.activeAvatar.id;
   };
