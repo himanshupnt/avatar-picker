@@ -18,6 +18,33 @@ class AvatarPicker extends Component {
     updatingAvatarID: -1
   };
 
+  onClickActiveAvatar = e => {
+    e.preventDefault();
+    if (e.keyCode === 13 || e.keyCode === 32 || e.type === "click") {
+      this.setState(prevState => {
+        return { showModal: true };
+      });
+    }
+  };
+
+  onCloseModal = e => {
+    e.preventDefault();
+    if (e.keyCode === 27 || e.type === "click") {
+      this.setState(prevState => {
+        return { showModal: false, updatingAvatarID: -1 };
+      });
+      document.removeEventListener("keyup", this.onCloseModal, false);
+    }
+  };
+
+  highlight = avatarID => {
+    return avatarID === this.state.activeAvatar.id;
+  };
+
+  showSpinner = avatarID => {
+    return avatarID === this.state.updatingAvatarID;
+  };
+
   render() {
     return (
       <div className={styles.AvatarPickerWrapper}>
